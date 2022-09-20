@@ -5,8 +5,8 @@ import RouteSwitch from "./components/RouteSwitch";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { fetchData } from "./redux/actions";
 // import { fetchData } from "./redux/itemSlice";
-import { errors, fetchData } from "./redux/itemSlice";
-import { fetchBooks } from "./redux/bookSlice";
+import { fetchData } from "./redux/itemSlice";
+import { errors, fetchBooks } from "./redux/bookSlice";
 
 function App() {
   const dispatch = useDispatch();
