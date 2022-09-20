@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import { onSnapshot } from "firebase/firestore";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+// import { onSnapshot } from "firebase/firestore";
 import {
   // bookCollectionRef,
   // deleteBook,
