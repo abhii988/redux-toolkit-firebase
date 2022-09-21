@@ -79,7 +79,6 @@ const AddBook = () => {
     );
     await uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then(async (url) => {
-        // setImgUrl(url);
         var date = Math.random(Date.now());
         const newBook = {
           title: data.title,

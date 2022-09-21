@@ -69,8 +69,6 @@ const EditBook = () => {
   const authorBlurHandler = (e) => {
     setAuthorTouched(true);
   };
-  // console.log("non-edited book data", data);
-  // console.log(stat);
 
   //Form Validation
   const onSubmit = async (e) => {
@@ -97,12 +95,6 @@ const EditBook = () => {
             author: data.author,
           };
           updateBook(params.id, newBook);
-          // console.log("If image is changed");
-          // console.log("params.id:", params.id);
-          // console.log("data.title:", data.title);
-          // console.log("stat:", data.status);
-          // console.log("url:", url);
-          // console.log("data.author:", data.author);
           dispatch(
             changeBook({
               id: params.id,
@@ -111,6 +103,7 @@ const EditBook = () => {
           );
         });
       });
+      dispatch(dataLoader(true));
     } else {
       const newBook = {
         title: data.title,
@@ -119,21 +112,15 @@ const EditBook = () => {
         author: data.author,
       };
       updateBook(params.id, newBook);
-      // console.log("If image is not changed");
-      // console.log("params.id:", params.id);
-      // console.log("data.title:", data.title);
-      // console.log("stat:", data.status);
-      // console.log("url:", data.url);
-      // console.log("data.author:", data.author);
       dispatch(
         changeBook({
           id: params.id,
           ...newBook,
         })
       );
+      dispatch(dataLoader(true));
     }
     clear();
-    dispatch(dataLoader(true));
     setTitleTouched(false);
     setAuthorTouched(false);
     navigate("/book");

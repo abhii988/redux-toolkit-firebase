@@ -7,10 +7,19 @@ import {
   getDocs,
   getDoc,
   updateDoc,
+  // orderBy,
+  // query,
+  // limit,
 } from "firebase/firestore";
 
 export const bookCollectionRef = collection(db, "books");
-
+// export const bookCollectionRef = query(
+//   collection(db, "books"),
+//   orderBy("title", "desc"),
+//   limit(1)
+// );
+// const documentSnapshots = getDocs(bookCollectionRef);
+// const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 export const addBooks = (newBook) => {
   return addDoc(bookCollectionRef, newBook);
 };
@@ -26,6 +35,7 @@ export const deleteBook = (id) => {
 };
 
 export const getAllBooks = () => {
+  // console.log("last", lastVisible);
   return getDocs(bookCollectionRef);
 };
 

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-// import { onSnapshot } from "firebase/firestore";
+import React, { useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import {
   // bookCollectionRef,
@@ -16,7 +15,6 @@ import {
   errors,
   delBook,
   editBook,
-  // snap,
 } from "../redux/bookSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -26,16 +24,6 @@ const Book = () => {
   const add = () => {
     navigate("/book/add");
   };
-  useEffect(() => {
-    dispatch(errors(null));
-    // onSnapshot(bookCollectionRef, (book) =>
-    //   dispatch(snap(book.docs.map((doc) => ({ ...doc.data(), id: doc.id }))))
-    // );
-    dispatch(fetchBooks()).catch((err) => {
-      dispatch(errors(err.message));
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const data = useSelector((state) => state.totalBooks);
   const getBooks = () => {
     dispatch(dataLoader(true));
@@ -54,6 +42,10 @@ const Book = () => {
     deleteObject(desertRef);
     await deleteBook(id);
   };
+  // eslint-disable-next-line
+  const [lastDoc, setLastDoc] = useState("");
+  const fetchMore = () => {};
+
   return (
     <div>
       <h1>Book Page</h1>
@@ -76,55 +68,69 @@ const Book = () => {
                 {data.isLoading ? (
                   <div className="loader" />
                 ) : (
-                  <Table striped hover size="sm">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Book Title</th>
-                        <th>Book Author</th>
-                        <th>Image</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.books.map((book, index) => {
-                        return (
-                          <tr key={book.id}>
-                            <td>{index + 1}</td>
-                            <td>{book.title}</td>
-                            <td>{book.author}</td>
-                            <td>
-                              <img
-                                src={book.url}
-                                alt="img.jpg"
-                                width="100"
-                                height="100"
-                                style={{ width: "100px", height: "100px" }}
-                              />
-                            </td>
-                            <td>{book.status}</td>
-                            <td>
-                              <Button
-                                variant="secondary"
-                                className="edit"
-                                onClick={(e) => handleEdit(book)}
-                              >
-                                Edit
-                              </Button>
-                              <Button
-                                variant="danger"
-                                className="delete"
-                                onClick={(e) => deleteHandler(book.id)}
-                              >
-                                Delete
-                              </Button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
+                  <>
+                    <Table striped hover size="sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Book Title</th>
+                          <th>Book Author</th>
+                          <th>Image</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.books.map((book, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{book.title}</td>
+                              <td>{book.author}</td>
+                              <td>
+                                <img
+                                  src={book.url}
+                                  alt="img.jpg"
+                                  width="100"
+                                  height="100"
+                                  style={{ width: "100px", height: "100px" }}
+                                />
+                              </td>
+                              <td>{book.status}</td>
+                              <td>
+                                <Button
+                                  variant="secondary"
+                                  className="edit"
+                                  onClick={(e) => handleEdit(book)}
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant="danger"
+                                  className="delete"
+                                  onClick={(e) => deleteHandler(book.id)}
+                                >
+                                  Delete
+                                </Button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                    <div className="">
+                      <Button
+                        style={{
+                          marginLeft: "auto",
+                          display: "flex",
+                          marginRight: "auto",
+                        }}
+                        onClick={fetchMore}
+                      >
+                        More
+                      </Button>
+                    </div>
+                  </>
                 )}
               </>
             ) : (

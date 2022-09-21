@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { onSnapshot } from "firebase/firestore";
 import {
-  // bookCollectionRef,
   // deleteBook,
   getAllBooks,
   // getBook,
@@ -10,7 +8,6 @@ import {
 } from "../services/book.services";
 
 export const fetchBooks = createAsyncThunk("book/fetchData", async () => {
-  // snapBooks();
   const response = await getAllBooks().then((responseData) => {
     return responseData?.docs?.map((doc) => ({
       id: doc.id,
@@ -22,21 +19,6 @@ export const fetchBooks = createAsyncThunk("book/fetchData", async () => {
   });
   return response;
 });
-// export const fetchBooks = createAsyncThunk("book/fetchData", async () => {
-//   const response = onSnapshot(bookCollectionRef, (responseData) => {
-//     console.log("snap responsedata", responseData);
-//     return responseData?.docs?.map((doc) => ({
-//       id: doc.id,
-//       title: doc.data().title,
-//       author: doc.data().author,
-//       status: doc.data().status,
-//       url: doc.data().url,
-//     }));
-//   });
-//   // console.log("response", response);
-//   console.log("snap response", response);
-//   return response;
-// });
 
 const bookSlice = createSlice({
   name: "totalBooks",
@@ -57,7 +39,9 @@ const bookSlice = createSlice({
       // state.data.status = action.payload.status;
     },
     snap: (state, action) => {
-      state.books = { ...action.payload };
+      // console.log(action.payload, "payload");
+      state.books = [...action.payload];
+      state.isLoading = false;
     },
     submit: (state, action) => {
       state.books = [...state.books, action.payload];
