@@ -60,9 +60,12 @@ const Book = () => {
   const data = useSelector((state) => state.totalBooks);
   const getBooks = () => {
     dispatch(dataLoader(true));
+    dispatch(setLastDoc(""));
+    setIsEmpty(true);
     dispatch(fetchBooks()).catch((err) => {
       dispatch(bookErrors(err.message));
     });
+    console.log(data.lastDoc);
   };
   const handleEdit = (book) => {
     dispatch(editBook(book));

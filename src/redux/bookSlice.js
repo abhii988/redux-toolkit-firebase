@@ -45,7 +45,7 @@ const bookSlice = createSlice({
       state.isLoading = false;
     },
     submit: (state, action) => {
-      console.log(action.payload, "payload");
+      // console.log(action.payload, "payload");
       state.books = [...state.books, action.payload];
       // const newBook = { ...action.payload };
       // addBooks(newBook);
