@@ -22,10 +22,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.bookContainer {
+  margin: 10px auto;
+  max-height: 80%;
+  overflow: auto;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .btns {
   margin: 2px;
   display: inline;
-  width: 8%;
+  width: 8.3%;
   color: aliceblue;
   font-size: "16px";
   background-color: #1b7bda;
@@ -38,11 +47,24 @@ code {
   font-size: "16px";
   background-color: #1b7bda;
 }
-.action_btn:hover {
-  color: aliceblue;
-  background-color: #1975a3;
+.edit {
+  background-color: #717981;
 }
-
+.edit:hover {
+  background-color: #565a5f;
+}
+.delete {
+  background-color: #dc3545;
+}
+.delete:hover {
+  background-color: #c03543;
+}
+.load-more {
+  margin-left: auto;
+  display: flex;
+  margin-right: auto;
+  /* display: none; */
+}
 table {
   margin-left: auto;
   margin-right: auto;

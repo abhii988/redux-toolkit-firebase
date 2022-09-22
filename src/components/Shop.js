@@ -136,7 +136,7 @@ const Shop = () => {
       <h1>User's List:</h1>
       <br />
       <Button
-        variant="light"
+        variant="dark"
         disabled={data.isLoading}
         onClick={!data.isLoading ? fetchButton : null}
         className="btns"
@@ -235,15 +235,15 @@ const Shop = () => {
                           <td>{item.phone}</td>
                           <td>
                             <Button
-                              variant="info"
-                              className="action_btn"
+                              variant="secondary"
+                              className="edit action_btn"
                               onClick={() => handleEdit(item)}
                             >
                               Edit
                             </Button>
                             <Button
-                              variant="info"
-                              className="action_btn"
+                              variant="danger"
+                              className="delete action_btn"
                               // onClick={() => handleDelete(item.id)}
                               onClick={() => showDeleteModal(item)}
                             >
@@ -279,15 +279,15 @@ const Shop = () => {
                               <td>{item.phone}</td>
                               <td>
                                 <Button
-                                  variant="info"
-                                  className="action_btn"
+                                  variant="secondary"
+                                  className="edit action_btn"
                                   onClick={() => handleEdit(item)}
                                 >
                                   Edit
                                 </Button>
                                 <Button
-                                  variant="info"
-                                  className="action_btn"
+                                  variant="danger"
+                                  className="delete action_btn"
                                   // onClick={() => handleDelete(item.id)}
                                   onClick={() => showDeleteModal(item)}
                                 >
