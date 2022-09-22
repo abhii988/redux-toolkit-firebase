@@ -7,4 +7,8 @@ export const store = configureStore({
     totalItems: itemReducer,
     totalBooks: bookReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });

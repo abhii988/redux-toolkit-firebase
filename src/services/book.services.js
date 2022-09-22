@@ -19,7 +19,7 @@ export const bookCollectionRef = collection(db, "books");
 //   limit(1)
 // );
 // const documentSnapshots = getDocs(bookCollectionRef);
-// const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+// const lastDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 export const addBooks = (newBook) => {
   return addDoc(bookCollectionRef, newBook);
 };

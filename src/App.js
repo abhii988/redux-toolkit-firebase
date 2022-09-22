@@ -3,30 +3,32 @@ import { useDispatch } from "react-redux";
 import "./App.css";
 import RouteSwitch from "./components/RouteSwitch";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import { fetchData } from "./redux/actions";
-// import { fetchData } from "./redux/itemSlice";
-import { fetchData } from "./redux/itemSlice";
-import { errors, snap } from "./redux/bookSlice";
-import { onSnapshot } from "firebase/firestore";
-import { bookCollectionRef } from "./services/book.services";
+import { errors, fetchData } from "./redux/itemSlice";
+import { bookErrors } from "./redux/bookSlice";
+// import { bookErrors, setLastDoc, snap } from "./redux/bookSlice";
+// import { limit, onSnapshot, orderBy, query } from "firebase/firestore";
+// import { bookCollectionRef } from "./services/book.services";
 
 function App() {
   const dispatch = useDispatch();
-  onSnapshot(bookCollectionRef, (book) => {
-    const newBook = book.docs.map((doc) => {
-      return {
-        id: doc.id,
-        title: doc.data().title,
-        status: doc.data().status,
-        url: doc.data().url,
-        author: doc.data().author,
-      };
-    });
-    dispatch(snap(newBook)).catch((err) => {
-      dispatch(errors(err.message));
-    });
-  });
+  // onSnapshot(
+  //   query(bookCollectionRef, orderBy("title", "asc"), limit(1)),
+  //   (book) => {
+  //     setLastDoc(book.docs[book.docs.length - 1]);
+  //     const newBook = book.docs.map((doc) => {
+  //       return {
+  //         id: doc.id,
+  //         title: doc.data().title,
+  //         status: doc.data().status,
+  //         url: doc.data().url,
+  //         author: doc.data().author,
+  //       };
+  //     });
+  //     dispatch(snap(newBook));
+  //   }
+  // );
   useEffect(() => {
+    dispatch(bookErrors(null));
     dispatch(errors(null));
     dispatch(fetchData());
     // dispatch(fetchData()).catch((err) => {

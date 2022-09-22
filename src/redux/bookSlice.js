@@ -32,6 +32,7 @@ const bookSlice = createSlice({
     isEdit: false,
     isLoading: false,
     errorMessage: "",
+    lastDoc: "",
   },
   reducers: {
     inputChange: (state, action) => {
@@ -44,6 +45,7 @@ const bookSlice = createSlice({
       state.isLoading = false;
     },
     submit: (state, action) => {
+      console.log(action.payload, "payload");
       state.books = [...state.books, action.payload];
       // const newBook = { ...action.payload };
       // addBooks(newBook);
@@ -83,8 +85,11 @@ const bookSlice = createSlice({
     dataLoader: (state, action) => {
       state.isLoading = action.payload;
     },
-    errors: (state, action) => {
+    bookErrors: (state, action) => {
       state.errorMessage = action.payload;
+    },
+    setLastDoc: (state, action) => {
+      state.lastDoc = action.payload;
     },
   },
 
@@ -112,7 +117,8 @@ export const {
   changeBook,
   delBook,
   dataLoader,
-  errors,
+  bookErrors,
   clearForm,
+  setLastDoc,
 } = bookSlice.actions;
 export default bookSlice.reducer;

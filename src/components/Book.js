@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import {
-  // bookCollectionRef,
+  bookCollectionRef,
   deleteBook,
-  // getAllBooks,
   getBook,
 } from "../services/book.services";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,11 +11,22 @@ import { storage } from "../firebase-config";
 import {
   fetchBooks,
   dataLoader,
-  errors,
+  bookErrors,
   delBook,
   editBook,
+  setLastDoc,
+  snap,
+  submit,
 } from "../redux/bookSlice";
 import { useNavigate } from "react-router-dom";
+import {
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  startAfter,
+} from "firebase/firestore";
 
 const Book = () => {
   const dispatch = useDispatch();
@@ -24,11 +34,34 @@ const Book = () => {
   const add = () => {
     navigate("/book/add");
   };
+  const [loading, setLoading] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
+  // const bookCollectionRef = collection(db, "books");
+  useEffect(() => {
+    onSnapshot(
+      query(bookCollectionRef, orderBy("title", "asc"), limit(1)),
+      (book) => {
+        const newBook = book.docs.map((doc) => {
+          dispatch(setLastDoc(book.docs[book.docs.length - 1]));
+          return {
+            id: doc.id,
+            title: doc.data().title,
+            status: doc.data().status,
+            url: doc.data().url,
+            author: doc.data().author,
+          };
+        });
+        dispatch(snap(newBook));
+      }
+    );
+    // eslint-disable-next-line
+  }, []);
+
   const data = useSelector((state) => state.totalBooks);
   const getBooks = () => {
     dispatch(dataLoader(true));
     dispatch(fetchBooks()).catch((err) => {
-      dispatch(errors(err.message));
+      dispatch(bookErrors(err.message));
     });
   };
   const handleEdit = (book) => {
@@ -42,25 +75,48 @@ const Book = () => {
     deleteObject(desertRef);
     await deleteBook(id);
   };
-  // eslint-disable-next-line
-  const [lastDoc, setLastDoc] = useState("");
-  const fetchMore = () => {};
+
+  const fetchMore = async () => {
+    setLoading(true);
+    const nextData = await getDocs(
+      query(
+        bookCollectionRef,
+        orderBy("title", "asc"),
+        startAfter(data.lastDoc),
+        limit(1)
+      )
+    );
+    const book = nextData.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    dispatch(setLastDoc(nextData.docs[nextData.docs.length - 1]));
+    // console.log("book", book);
+    // console.log("nextData", nextData);
+    // console.log("nextData id", nextData.size);
+    setLoading(false);
+    if (nextData.size === 0) {
+      setIsEmpty(true);
+      console.log("no data found");
+      return;
+    }
+    dispatch(submit(...book));
+  };
 
   return (
     <div>
       <h1>Book Page</h1>
-
+      <div className="mb-2">
+        <Button variant="light" onClick={add} className="btns">
+          Add Book &#10011;
+        </Button>{" "}
+        <Button variant="dark edit" onClick={getBooks}>
+          Refresh List
+        </Button>
+      </div>
       <hr />
-      {/* <h2>This is the book page!</h2> */}
       <>
-        <div className="mb-2">
-          <Button variant="light" onClick={add} className="btns">
-            Add Book &#10011;
-          </Button>{" "}
-          <Button variant="dark edit" onClick={getBooks}>
-            Refresh List
-          </Button>
-        </div>
+        <br />
         {data.errorMessage === null ? (
           <>
             {data.books.length > 0 ? (
@@ -118,18 +174,34 @@ const Book = () => {
                         })}
                       </tbody>
                     </Table>
-                    <div className="">
-                      <Button
+                    {isEmpty ? (
+                      <h5
                         style={{
-                          marginLeft: "auto",
-                          display: "flex",
-                          marginRight: "auto",
+                          textAlign: "center",
                         }}
-                        onClick={fetchMore}
                       >
-                        More
-                      </Button>
-                    </div>
+                        No more data to load.
+                      </h5>
+                    ) : (
+                      <>
+                        {loading ? (
+                          <div className="loader_mini" />
+                        ) : (
+                          <div className="">
+                            <Button
+                              style={{
+                                marginLeft: "auto",
+                                display: "flex",
+                                marginRight: "auto",
+                              }}
+                              onClick={fetchMore}
+                            >
+                              More
+                            </Button>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </>
                 )}
               </>
