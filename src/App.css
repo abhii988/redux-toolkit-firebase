@@ -46,7 +46,7 @@ body {
   width: 50%;
   height: 50%;
   float: left;
-  position: fixed;
+  /* position: fixed; */
   width: 50%;
   height: 50%;
 }
