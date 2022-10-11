@@ -369,9 +369,10 @@ const Book = () => {
                       </tbody> */}
                       </Table>
                       {isEmpty ? (
-                        <h5 style={{ textAlign: "center" }}>
-                          No more data to load.
-                        </h5>
+                        // <h5 style={{ textAlign: "center" }}>
+                        //   No more data to load.
+                        // </h5>
+                        <div />
                       ) : (
                         <>
                           {loading ? (
