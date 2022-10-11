@@ -116,6 +116,22 @@ const Book = () => {
   //Scroll Code
   // const [last, setLast] = useState(0);
   const [allBooks, setAllBooks] = useState("");
+  // const allBook = async () => {
+  //   const response = await onSnapshot(bookCollectionRef, (book) => {
+  //     const newBook = book.docs.map((doc) => {
+  //       dispatch(setLastDoc(book.docs[book.docs.length - 1]));
+  //       return {
+  //         id: doc.id,
+  //         title: doc.data().title,
+  //         status: doc.data().status,
+  //         url: doc.data().url,
+  //         author: doc.data().author,
+  //       };
+  //     });
+  //     setAllBooks([...newBook]);
+  //   });
+  //   return response;
+  // };
   const allBook = async () => {
     const response = await getAllBooks().then((responseData) => {
       return responseData?.docs?.map((doc) => ({
@@ -139,17 +155,18 @@ const Book = () => {
     //     (event.currentTarget.clientHeight +
     //       Math.ceil(event.currentTarget.scrollTop))
     // );
+    // setTotal(event.currentTarget.offsetHeight + event.currentTarget.scrollTop);
     const total =
       event.currentTarget.offsetHeight + event.currentTarget.scrollTop;
-    if (allBooks.length !== data.books.length) {
-      if (!loading) {
-        // if (last < 1) {
-        if (total >= event.currentTarget.scrollHeight) {
-          console.log("last page");
-          fetchMore();
-          // setLast(0);
-          return;
-        }
+    if (allBooks.length !== data.books.length && !loading) {
+      // if (!loading || !isEmpty) {
+      // if (last < 1) {
+      if (Math.ceil(total) >= event.currentTarget.scrollHeight) {
+        // console.log("allBooks.length", allBooks.length);
+        //     console.log("data.books.length", data.books.length);
+        fetchMore();
+        // setLast(0);
+        // return;
       } else {
         return;
       }
@@ -188,13 +205,8 @@ const Book = () => {
   //Search
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <div
-        className="bookContainer"
-        id="books"
-        onScroll={handleScroll}
-        style={{ width: "100%", minHeight: "90%" }}
-      >
+    <div>
+      <div className="bookContainer" id="books" onScroll={handleScroll}>
         <h1>Book Page</h1>
         <div className="mb-2">
           <Button variant="dark" className="btns" onClick={getBooks}>
