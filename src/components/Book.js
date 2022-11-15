@@ -157,7 +157,9 @@ const Book = () => {
     // );
     // setTotal(event.currentTarget.offsetHeight + event.currentTarget.scrollTop);
     const total =
-      event.currentTarget.offsetHeight + event.currentTarget.scrollTop;
+      event.currentTarget.offsetHeight + event.currentTarget.scrollTop + 1;
+    console.log(Math.ceil(total));
+    console.log(event.currentTarget.scrollHeight);
     if (allBooks.length !== data.books.length && !loading) {
       // if (!loading || !isEmpty) {
       // if (last < 1) {
@@ -245,7 +247,13 @@ const Book = () => {
                   ) : (
                     // <div className="loader">Loading...</div>
                     <>
-                      <Table striped hover size="sm" className="scroll">
+                      <Table
+                        striped
+                        hover
+                        size="sm"
+                        className="scroll"
+                        style={{ marginBottom: "10rem" }}
+                      >
                         <thead>
                           <tr>
                             <th>#</th>
@@ -268,11 +276,9 @@ const Book = () => {
                                     <img
                                       src={book.url}
                                       alt="img.jpg"
-                                      width="100"
-                                      height="100"
                                       style={{
-                                        width: "100px",
-                                        height: "100px",
+                                        width: "150px",
+                                        height: "150px",
                                       }}
                                     />
                                   </td>
@@ -309,11 +315,9 @@ const Book = () => {
                                       <img
                                         src={book.url}
                                         alt="img.jpg"
-                                        width="100"
-                                        height="100"
                                         style={{
-                                          width: "100px",
-                                          height: "100px",
+                                          width: "150px",
+                                          height: "150px",
                                         }}
                                       />
                                     </td>
@@ -411,12 +415,13 @@ const Book = () => {
           )}
         </>
       </div>
-      {data.books.length > 0 ? (
+      {data.books.length === allBooks.length ? (
         <div id="bottom">
-          <br />
           <br />
           <p>No more data to load.</p>
           Click <Button onClick={goToTop}>Here</Button> to go to top.
+          <br />
+          <br />
         </div>
       ) : (
         <div />

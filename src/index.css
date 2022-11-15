@@ -76,7 +76,8 @@ body::-webkit-scrollbar {
 table {
   margin-left: auto;
   margin-right: auto;
-  width: 80%;
+  width: 80% !important;
+  /* margin-bottom: 10rem !important; */
 }
 /* table.scroll {
   width: 80%;
@@ -98,16 +99,29 @@ table.scroll tbody {
   /* overflow-x: hidden; */
 }
 
-table.scroll tbody td,
 table.scroll thead th {
   /* width: 100%; */
-  width: 140px;
+  width: 315px;
   /* border-right: 1px solid black; */
 }
-
+table.scroll tbody td {
+  /* width: 100%; */
+  width: 295px;
+  /* border-right: 1px solid black; */
+}
+table.scroll thead th:first-child {
+  /* width: 56.1% !important; */
+  width: 235px;
+  /* 140px + 16px scrollbar width */
+}
+table.scroll tbody td:first-child {
+  /* width: 56.1% !important; */
+  width: 218px;
+  /* 140px + 16px scrollbar width */
+}
 table.scroll thead th:last-child,
 tbody td:last-child {
-  width: 56.1% !important;
+  /* width: 56.1% !important; */
   /* width: 156px;  */
   /* 140px + 16px scrollbar width */
 }
